@@ -1,0 +1,40 @@
+<%- include("partials/header")%>
+<style>
+	body{
+			background: #FF416C;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #FF4B2B, #FF416C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+		}
+		#div{
+			text-align: center;
+			margin: 200px auto;
+			font-size: 40px;
+		}
+		#link{
+			transition-property: all;
+			transition-duration: 0.5s;
+			transition-timing-function: linear;
+              
+		}
+	  div a:hover{
+		color: black;
+		}
+	h1{
+		color:white;
+		text-shadow:6px 6px 20px black;
+	}
+	p{
+		color:white;
+		text-shadow:6px 6px 20px black;
+		
+	}
+</style>
+<div id="div">
+<h1 class="text-uppercase display-3">Color Game</h1>
+<a href="/home/game" id="link"><i class="fa fa-play" aria-hidden="true"></i></a>
+	<p>
+		Let's Go <%=currentUser.username%>
+	</p>
+</div>
+<%- include("partials/footer")%>

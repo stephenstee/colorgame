@@ -1,0 +1,259 @@
+<%- include("partials/header")%>
+
+	<!-- <link rel="stylesheet" type="text/css" href="colorgame.css"> -->
+	<style>
+	body{
+	background-color: black;
+	margin: 0;
+}
+.box{
+	width: 30%;
+	background-color: red;
+	padding-bottom: 30%;
+	float: left;
+	margin:1.66%;
+	border-radius: 20px;
+	transition-property: background-color;
+	transition-duration: 0.5s;
+}
+.container{
+	margin: 20px auto;
+	max-width: 600px;
+
+}
+h1{
+	color :white;
+	text-align: center;
+	background-color: steelblue;
+	text-transform: uppercase;
+	font-weight: normal;
+	margin: 0;
+	line-height: 1.5;
+
+}
+
+#buttoncontainer{
+	height: 30%;
+	text-align: center;
+	background-color: white;
+	color: black;
+}
+
+
+.selector{
+	background-color: blue;
+}
+#span{
+	font-size: 200%;
+}
+
+button{
+	border: none;
+	background: none;
+	text-transform: uppercase;
+	height: 100%;
+	font-weight: 700;
+	color:steelblue;
+	letter-spacing: 1px;
+	font-size: 20px;
+	transition-property: all;
+	transition-duration: 1s;
+}
+
+button:hover{
+	color:white;
+	background-color: steelblue;
+}
+#messagedisplay{
+	display: inline-block;
+	width: 20%;
+	color: steelblue;
+	font-size: 20px;
+}
+	</style>
+	<h1>
+		The Color
+		<br>
+	 <span id="span"> 
+	 	RGB
+	 	<br>
+	 </span>
+	 <br>
+	  Guessing game
+	   </h1>
+	<div id="buttoncontainer">
+		<button id="resetbutton">new game</button>
+		<span id="messagedisplay"></span>
+		<button id="easybutton">Easy</button>
+		<button id="hardbutton">medium</button>
+		<button id="newhardbutton" class="selector">hard</button>
+	</div>
+<div class="container">
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+	<div class="box"></div>
+</div>
+<script>
+	var colortracker = 9;
+var color =  generatecolor (colortracker);
+var squares = document.querySelectorAll(".box");
+var colorid = pickcolor();
+var colordisplay = document.querySelector("#span");
+var messagedisplay = document.querySelector("#messagedisplay");
+var h1 = document.querySelector("h1");
+var resetbutton = document.querySelector("#resetbutton");
+var easybutton = document.querySelector("#easybutton");
+var hardbutton = document.querySelector("#hardbutton");
+var newhardbutton = document.querySelector("#newhardbutton");
+
+
+// easymode
+
+easybutton.addEventListener("click",function(){
+	hardbutton.classList.remove("selector");
+	newhardbutton.classList.remove("selector");
+	easybutton.classList.add("selector");
+	colortracker = 3;
+	color = generatecolor(colortracker);
+	colorid = pickcolor();
+	colordisplay.textContent = colorid;
+
+	for(var i =0;i <squares.length; i++){
+		if(color[i]){
+			squares[i].style.backgroundColor = color[i];
+	}
+	else{
+		squares[i].style.display = "none";
+	}
+	}
+
+});
+
+// hard mode
+hardbutton.addEventListener("click",function(){
+	hardbutton.classList.add("selector");
+	easybutton.classList.remove("selector");
+	newhardbutton.classList.remove("selector");
+	colortracker = 6;
+	color = generatecolor(colortracker);
+	colorid = pickcolor();
+	colordisplay.textContent = colorid;
+
+	    for(var i =0;i <squares.length; i++){
+	    	if(color[i]){
+	    		squares[i].style.backgroundColor = color[i];
+	    		squares[i].style.display = "block";	
+	    	}
+	    	else{
+	    		squares[i].style.display = "none";           	   
+	    	}
+	}
+	
+
+});
+
+
+// newhard level included
+newhardbutton.addEventListener("click", function(){
+	newhardbutton.classList.add("selector");
+	easybutton.classList.remove("selector");
+	hardbutton.classList.remove("selector");
+	colortracker = 9;
+	color = generatecolor(colortracker);
+	colorid = pickcolor();
+	colordisplay.textContent = colorid;
+
+	for(var i=0; i< squares.length; i++){
+		squares[i].style.backgroundColor = color[i];
+		squares[i].style.display = "block";
+	
+	}
+});
+
+
+// reset or new game mode
+resetbutton.addEventListener("click",function(){
+      color =  generatecolor (colortracker);
+      colorid = pickcolor();
+      colordisplay.textContent = colorid;
+      messagedisplay.textContent = "";
+      resetbutton.textContent = "newcolor";
+      for(var i=0;i<squares.length ; i++){
+      	squares[i].style.backgroundColor = color[i];
+
+      }
+      h1.style.backgroundColor = "steelblue"; 
+});
+
+// main area
+
+colordisplay.textContent = colorid;
+
+for(var i=0 ;i<squares.length;i++){
+	squares[i].style.backgroundColor = color[i];
+
+	squares[i].addEventListener("click",function(){
+
+       var colorpicked = this.style.backgroundColor;
+       console.log(colorpicked, colorid);
+        if(colorpicked === colorid){
+        	messagedisplay.textContent = "correct";
+        	changecolor(colorpicked);
+        	h1.style.backgroundColor = colorpicked;
+        	resetbutton.textContent = "try again?";
+      
+        }
+        else{
+        	this.style.backgroundColor = "black";
+        	messagedisplay.textContent = "try again";
+        }
+   });
+
+};
+
+
+// function to changeocolor for all squares
+function changecolor(colors){
+
+	for(var i=0;i<squares.length; i++){
+		squares[i].style.backgroundColor = colors; 
+	}
+
+}
+
+// to pick a color
+function pickcolor(){
+	var answer = Math.floor(Math.random() * color.length);
+	return color[answer];
+}
+
+
+// generatecolors
+function generatecolor(num){
+
+	var arr = [];
+	for( var i=0; i < num ; i++){
+         arr.push( selectingcolor() ); 
+	}
+	return arr;
+};
+
+// to pick the random color
+
+function selectingcolor(){
+
+	var r = Math.floor(Math.random() * 256);
+	var g = Math.floor(Math.random() * 256);
+	var b = Math.floor(Math.random() * 256);
+
+  return "rgb(" + r + ", " + g + ", " + b +")";
+};
+	
+</script>
+<%- include("partials/footer")%>
