@@ -3,7 +3,7 @@ var app = express();
 var mongoose = require("mongoose");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
-var passportLocalMongoose = require("passport-local-mongoose");
+var passportLocalMongoose = require("passport-local-mongoose"); 
 var bodyParser = require("body-parser");
 var User = require("./models/user");
 
